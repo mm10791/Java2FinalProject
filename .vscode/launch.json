@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "WriteEmployee",
+            "request": "launch",
+            "mainClass": "WriteEmployee",
+            "projectName": "Java2FinalProject_dfe62dbe"
+            //"projectName": "EmployeesManagement_97fbace9"
+        },
+        {
+            "type": "java",
+            "name": "MainSearch",
+            "request": "launch",
+            "mainClass": "MainSearch",
+            "projectName": "Java2FinalProject_dfe62dbe",
+            //"projectName": "EmployeesManagement_97fbace9",
+            "vmArgs": "--module-path C:/java/openjfx-20.0.1_windows-x64_bin-sdk/javafx-sdk-20.0.1/lib --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
