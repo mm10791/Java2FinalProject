@@ -6,7 +6,7 @@ package java2finalproject;
 
 /**
  *
- * @author madison
+ * @author Max
  */
 import javafx.application.Application;
 import javafx.scene.*;
