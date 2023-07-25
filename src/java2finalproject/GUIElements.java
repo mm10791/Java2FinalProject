@@ -17,10 +17,6 @@ import javafx.geometry.Insets;
 
 public class GUIElements extends Application {
     public void start(Stage primaryStage) {
-        //testing number three for vscode and new branch
-        //test some more
-        //maybe this branch will work?
-        //please do the things
-        //last test to the max branch
+        
     }
 }
