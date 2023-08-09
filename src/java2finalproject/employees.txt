@@ -1,0 +1,1 @@
+Employee info: Peter Parker, ID 34567, Position cashier
