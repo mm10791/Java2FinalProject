@@ -1,4 +1,5 @@
-public class Employee {
+import java.io.Serializable;
+public class Employee implements Serializable {
     //variables
     private String firstName;
     private String lastName;
@@ -30,20 +31,35 @@ public class Employee {
         return id;
     }
 
-    public String fullString() {
-        return "Employee info: " + firstName + " " + lastName + ", ID " + id + ", Position " + position;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    //parse the variables
-    public static Employee parseEmployee(String str){
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+
+    public String fullString() {
+        return "Employee info: First Name: " + firstName + ", Last Name: " + lastName + ", ID: " + id + ", Position: " + position;
+    }    
+
+    public static Employee parseEmployee(String str) {
         String[] parts = str.split(", ");
-        String firstName = parts[0].substring(parts[0].indexOf(":") + 1);
-        String lastName = parts[1];
-        String position = parts[2];
-        int id = Integer.parseInt(parts[3].substring(parts[3].indexOf("ID ") + 3));
+        String firstName = parts[1].substring(parts[1].indexOf("First Name:") + 12);
+        String lastName = parts[2].substring(parts[2].indexOf("Last Name:") + 11);
+        String position = parts[3].substring(parts[3].indexOf("Position:") + 9);
+        int id = Integer.parseInt(parts[4].substring(parts[4].indexOf("ID:") + 4));
 
         Employee employee = new Employee(firstName, lastName, position, id);
         return employee;
     }
-
 }

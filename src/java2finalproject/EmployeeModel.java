@@ -1,43 +1,62 @@
 import java.io.*;
 import java.util.*;
+import java.util.ArrayList;
 
 public class EmployeeModel{	
-	//employees.txt
-	File employeeFile = new File("employees.txt");
+	//Binary file
+	private File employeeFile = new File("employees.dat");
 
-	public void writeAllEmployees(ArrayList<Employee> employeeList){
-		PrintWriter pw = null;
-		try {
-			pw = new PrintWriter(employeeFile);
-			for(Employee employee: employeeList){
-				pw.println(employee.fullString());
-			}
-		}catch(Exception e) {
-			System.out.println("Error writing employee");
-		}finally {
-			if(pw != null) pw.close();
-		}
-	}
+	public void writeAllEmployees(ArrayList<Employee> employeeList) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(employeeFile))) {
+            oos.writeObject(employeeList);
+        } catch (IOException e) {
+            System.out.println("Error writing employee: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-	public ArrayList<Employee> readAllEmployees(){
-		ArrayList<Employee> employeeList = new ArrayList<Employee>();
-		Scanner scan = null;
-		try{
-			scan = new Scanner(employeeFile);
-			while(scan.hasNext()){
-				String employeeLine = scan.nextLine();
-				Employee employee = Employee.parseEmployee(employeeLine);
-				employeeList.add(employee);
-			}
+    public ArrayList<Employee> readAllEmployees() {
+        ArrayList<Employee> employeeList = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(employeeFile))) {
+            employeeList = (ArrayList<Employee>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading employee: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return employeeList;
+    }
 
-		}catch(Exception e) {
-			System.out.println("Error reading employee");
-		}finally {
-			if(scan != null) scan.close();
-		}
+    //Search for employee
+    public ArrayList<Employee> searchResult(String firstName, String lastName, String position, String id) {
+        ArrayList<Employee> employeeList = readAllEmployees();
+        ArrayList<Employee> searchResults = new ArrayList<>();
 
-		return employeeList;
-	}
+        for (Employee employee : employeeList) {
+            if (employee.getFirstName().equals(firstName) &&
+                employee.getLastName().equals(lastName) &&
+                employee.getPosition().equals(position) &&
+                String.valueOf(employee.getId()).equals(id)) {
+                searchResults.add(employee);
+            }
+        }
+        return searchResults;
+    }
+
+
+    //Update/edit the employee info 
+    public void updateEmployee(int index, Employee employee) {
+        ArrayList<Employee> employeeList = readAllEmployees();
+        if (index >= 0 && index < employeeList.size()) {
+            employeeList.set(index, employee);
+            writeAllEmployees(employeeList);
+        }
+}
+
+    public void saveEmployeesToFile() {
+        ArrayList<Employee> employeeList = readAllEmployees();
+        writeAllEmployees(employeeList);
+    }
+
 
 	public void addEmployee(Employee employee){
 		ArrayList<Employee> employeeList = readAllEmployees();
@@ -45,11 +64,12 @@ public class EmployeeModel{
 		writeAllEmployees(employeeList);
 	}
 
-	public void deleteEmployee(int index){
+	public void deleteEmployee(int index) {
         ArrayList<Employee> employeeList = readAllEmployees();
-        employeeList.remove(index);
-        writeAllEmployees(employeeList);
+        //Check bounds
+        if (index >= 0 && index < employeeList.size()) {
+            employeeList.remove(index);
+            writeAllEmployees(employeeList);
+        }
     }
-    
-
 }

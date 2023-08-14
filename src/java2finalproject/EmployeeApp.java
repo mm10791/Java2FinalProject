@@ -5,21 +5,21 @@ import javafx.stage.*;
 import javafx.fxml.FXMLLoader;
 
 public class EmployeeApp extends Application {
-  public static void main(String[] args) {
-	launch(args);
-  }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-  public void start(Stage primaryStage) {
-	try {
-		Parent root = FXMLLoader.load(getClass().getResource("EmployeeListView.fxml"));
+    public void start(Stage primaryStage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EmployeeListView.fxml"));
+            Pane root = loader.load();
 
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}catch(Exception e) {
-		System.out.println("Error loading fxml "+ e);
-	}
-
-  }
-
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error loading fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

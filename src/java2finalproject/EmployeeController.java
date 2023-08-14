@@ -17,6 +17,12 @@ public class EmployeeController {
     private ListView<Employee> lvEmployee;
 
     @FXML
+    private GridPane mainbody;
+    
+    @FXML
+    private Pane contentPane;
+
+    @FXML
     private Label lblFirstName;
 
     @FXML
@@ -42,6 +48,7 @@ public class EmployeeController {
 
     @FXML
     private TextArea txtResult;
+    
 
     //event handler methods 
     @FXML
@@ -51,8 +58,21 @@ public class EmployeeController {
     }
     @FXML
     void searchResult(ActionEvent event) {
-        setResult(model.searchResult(getFirstName(), getLastName(), getPosition(), getId()));
+        ArrayList<Employee> searchResults = model.searchResult(
+            txtFirstName.getText(),
+            txtLastName.getText(),
+            txtPosition.getText(),
+            txtId.getText()
+        );
+
+    StringBuilder resultText = new StringBuilder();
+    for (Employee employee : searchResults) {
+        resultText.append(employee.fullString()).append("\n");
     }
+
+    txtResult.setText(resultText.toString());
+}
+
     @FXML
     void addEmployee(ActionEvent event) {
         System.out.println("Adding new Employee");
@@ -60,17 +80,37 @@ public class EmployeeController {
     }
     @FXML
     void editEmployee(ActionEvent event) {
+        if (currentEmployee != null && currentIndex != -1) {
+            System.out.println("Editing Employee");
 
+            //Update the properties of the currentEmployee
+            currentEmployee.setFirstName(txtFirstName.getText());
+            currentEmployee.setLastName(txtLastName.getText());
+            currentEmployee.setPosition(txtPosition.getText());
+
+
+            //Update the employee in the model and save changes
+            model.updateEmployee(currentIndex, currentEmployee);
+            model.saveEmployeesToFile();
+
+            showListView();
+        }
     }
+
+
     @FXML
     void openEmployee(MouseEvent event) {
         System.out.println("Showing Employee details");
-        currentEmployee = (Employee) lvEmployee.getSelectionModel().getSelectedItem();
-        currentIndex = lvEmployee.getSelectionModel().getSelectedIndex();
-
-        setView("EmployeeEditView");
-        setEmployee(currentEmployee);
+        Employee selectedEmployee = lvEmployee.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            currentEmployee = selectedEmployee;
+            currentIndex = lvEmployee.getSelectionModel().getSelectedIndex();
+    
+            setView("EmployeeEditView");
+            setEmployee(currentEmployee);
+        }
     }
+
     @FXML
     void clearAll(ActionEvent event) {
         txtFirstName.setText("");
@@ -99,17 +139,18 @@ public class EmployeeController {
     }
 
     public void setView(String name) {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(name + ".fxml"));
-
             loader.setController(this);
 
             Pane view = loader.load();
-            mainbody.setCenter(view);
-        } catch(Exception e) {
-            System.out.print("Error loading" + name + ".fxml " + e);
+            contentPane.getChildren().setAll(view); // Replace content in the contentPane
+        }  catch(Exception e) {
+            System.out.print("Error loading" + name + ".fxml " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     public Employee getEmployee() {
         int id = Integer.parseInt(txtId.getText()); 
