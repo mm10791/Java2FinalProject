@@ -29,6 +29,7 @@
    </padding>
    <children>
       <TextField GridPane.columnIndex="1" />
+      <TextField fx:id="txtKeyword" GridPane.columnIndex="1" GridPane.rowIndex="0" />
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
          <children>
             <Button mnemonicParsing="false" onAction="#searchResult" prefHeight="26.0" prefWidth="77.0" text="Search">
@@ -48,7 +49,7 @@
             <Insets left="35.0" />
          </GridPane.margin>
       </Label>
-      <ListView fx:id="lvEmployee" prefHeight="181.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <ListView fx:id="lvEmployee" onMouseClicked="#openEmployee" prefHeight="181.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
