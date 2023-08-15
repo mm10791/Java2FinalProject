@@ -76,7 +76,7 @@
                </VBox.margin></TextField>
          </children>
       </VBox>
-      <Button mnemonicParsing="false" onAction="#goBack" text="Back" GridPane.columnIndex="3" GridPane.rowIndex="1">
+      <Button mnemonicParsing="false" onAction="#showListView" text="Back" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="25.0" />
          </GridPane.margin>

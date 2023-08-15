@@ -52,6 +52,12 @@ public class Employee implements Serializable {
         return "Employee info: First Name: " + firstName + ", Last Name: " + lastName + ", ID: " + id + ", Position: " + position;
     }    
 
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + ", " + position + ", " + id;
+    }
+
+
     public static Employee parseEmployee(String str) {
         String[] parts = str.split(", ");
         String firstName = parts[1].substring(parts[1].indexOf("First Name:") + 12);

@@ -3,8 +3,8 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class EmployeeModel{	
-	//Binary file
-	private File employeeFile = new File("employees.dat");
+	//Write to file
+	private File employeeFile = new File("employees.txt");
 
 	public void writeAllEmployees(ArrayList<Employee> employeeList) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(employeeFile))) {
@@ -30,17 +30,18 @@ public class EmployeeModel{
     public ArrayList<Employee> searchResult(String firstName, String lastName, String position, String id) {
         ArrayList<Employee> employeeList = readAllEmployees();
         ArrayList<Employee> searchResults = new ArrayList<>();
-
+    
         for (Employee employee : employeeList) {
-            if (employee.getFirstName().equals(firstName) &&
-                employee.getLastName().equals(lastName) &&
-                employee.getPosition().equals(position) &&
-                String.valueOf(employee.getId()).equals(id)) {
+            if (employee.getFirstName().contains(firstName) ||
+                employee.getLastName().contains(lastName) ||
+                employee.getPosition().contains(position) ||
+                String.valueOf(employee.getId()).contains(id)) {
                 searchResults.add(employee);
             }
         }
         return searchResults;
     }
+    
 
 
     //Update/edit the employee info 
@@ -50,7 +51,7 @@ public class EmployeeModel{
             employeeList.set(index, employee);
             writeAllEmployees(employeeList);
         }
-}
+    }
 
     public void saveEmployeesToFile() {
         ArrayList<Employee> employeeList = readAllEmployees();

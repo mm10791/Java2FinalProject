@@ -80,7 +80,7 @@
             <Insets />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#goBack" text="Back" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <Button mnemonicParsing="false" onAction="#showListView" text="Back" GridPane.columnIndex="3" GridPane.rowIndex="1" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
