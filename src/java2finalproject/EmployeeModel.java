@@ -7,8 +7,16 @@ public class EmployeeModel{
 	private File employeeFile = new File("employees.txt");
 
 	public void writeAllEmployees(ArrayList<Employee> employeeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(employeeFile))) {
-            oos.writeObject(employeeList);
+        System.out.println("writing all employees... ("+ employeeList.size() +")");
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(employeeFile))) {
+    
+            for (Employee employee : employeeList) {
+                dos.writeInt(employee.getId());
+                dos.writeUTF(employee.getFirstName());
+                dos.writeUTF(employee.getLastName());
+                dos.writeUTF(employee.getPosition());
+            }
+            dos.close();
         } catch (IOException e) {
             System.out.println("Error writing employee: " + e.getMessage());
             e.printStackTrace();
@@ -16,12 +24,18 @@ public class EmployeeModel{
     }
 
     public ArrayList<Employee> readAllEmployees() {
+        System.out.println("reading all employees...");
         ArrayList<Employee> employeeList = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(employeeFile))) {
-            employeeList = (ArrayList<Employee>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error reading employee: " + e.getMessage());
-            e.printStackTrace();
+        try(DataInputStream dis = new DataInputStream(new FileInputStream(employeeFile))){
+            int id = dis.readInt();
+            String firstname = dis.readUTF();
+            String lastname = dis.readUTF();
+            String pos = dis.readUTF();
+            Employee emp = new Employee(firstname, lastname, pos, id);
+
+            employeeList.add(emp);
+        }catch(Exception e){
+
         }
         return employeeList;
     }
@@ -30,12 +44,29 @@ public class EmployeeModel{
     public ArrayList<Employee> searchResult(String firstName, String lastName, String position, String id) {
         ArrayList<Employee> employeeList = readAllEmployees();
         ArrayList<Employee> searchResults = new ArrayList<>();
-    
+        
         for (Employee employee : employeeList) {
             if (employee.getFirstName().contains(firstName) ||
                 employee.getLastName().contains(lastName) ||
                 employee.getPosition().contains(position) ||
                 String.valueOf(employee.getId()).contains(id)) {
+                searchResults.add(employee);
+            }
+        }
+        return searchResults;
+    }
+    
+
+    //Search for employee
+    public ArrayList<Employee> searchResult(String searchString) {
+        ArrayList<Employee> employeeList = readAllEmployees();
+        ArrayList<Employee> searchResults = new ArrayList<>();
+        
+        for (Employee employee : employeeList) {
+            if (employee.getFirstName().contains(searchString) ||
+                employee.getLastName().contains(searchString) ||
+                employee.getPosition().contains(searchString) ||
+                String.valueOf(employee.getId()).contains(searchString)) {
                 searchResults.add(employee);
             }
         }

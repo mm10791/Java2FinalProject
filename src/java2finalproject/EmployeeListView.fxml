@@ -28,7 +28,7 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <children>
-      <TextField fx:id="txtSearch" GridPane.columnIndex="1" />
+      <TextField fx:id="txtSearchString" GridPane.columnIndex="1" />
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
          <children>
             <Button mnemonicParsing="false" onAction="#searchResult" prefHeight="26.0" prefWidth="77.0" text="Search">

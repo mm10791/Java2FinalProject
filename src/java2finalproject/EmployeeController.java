@@ -15,7 +15,7 @@ public class EmployeeController {
     @FXML private ListView<Employee> lvEmployee;
     @FXML private BorderPane mainbody;
     @FXML private Label lblFirstName, lblId, lblLastName, lblPosition;
-    @FXML private TextField txtFirstName, txtId, txtLastName, txtPosition, txtResult;
+    @FXML private TextField txtFirstName, txtId, txtLastName, txtPosition, txtResult, txtSearchString;
 
      //event handler methods 
      @FXML
@@ -25,7 +25,7 @@ public class EmployeeController {
      }
      @FXML
     void searchResult(ActionEvent event) {
-        ArrayList<Employee> searchResults = model.searchResult(getId(), getFirstName(), getLastName(), getPosition());
+        ArrayList<Employee> searchResults = model.searchResult(getSearchString());
         lvEmployee.getItems().setAll(searchResults);
     }
 
@@ -61,7 +61,6 @@ public class EmployeeController {
          Employee selectedEmployee = lvEmployee.getSelectionModel().getSelectedItem();
          if (selectedEmployee != null) {
              currentEmployee = selectedEmployee;
-             //currentEmployee = (Employee) lvEmployee.getSelectionModel().getSelectedItem();
              currentIndex = lvEmployee.getSelectionModel().getSelectedIndex();
      
              setView("EmployeeEditView");
@@ -71,10 +70,7 @@ public class EmployeeController {
  
      @FXML
      void clearAll(ActionEvent event) {
-         txtFirstName.setText("");
-         txtLastName.setText("");
-         txtId.setText("");
-         txtPosition.setText("");
+         txtSearchString.setText("");
      }
      @FXML
      void saveEmployee(ActionEvent event) {
@@ -110,7 +106,6 @@ public class EmployeeController {
          }
      }
  
- 
      public Employee getEmployee() {
          int id = Integer.parseInt(txtId.getText()); 
          return new Employee(txtFirstName.getText(), txtLastName.getText(), txtPosition.getText(), id);
@@ -123,18 +118,9 @@ public class EmployeeController {
          txtPosition.setText(employee.getPosition());
          txtId.setText(Integer.toString(employee.getId()));
      }
-
-     public String getFirstName() {
-        return txtFirstName.getText();
-     }
-     public String getLastName() {
-        return txtLastName.getText();
-     }
-     public String getPosition(){
-        return txtPosition.getText();
-    }
-    public String getId() {
-        return txtId.getText();
+     
+    public String getSearchString(){
+        return txtSearchString.getText();
     }
     
 
